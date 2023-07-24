@@ -44,11 +44,11 @@ const ShowCreators = ({data}) => {
           </div>
         )}
         {currentPage === getTotalPages() && (
-          <button style={{}}>
-            <Link to={'/new'} style={{ color: 'white' }}>
+          <Link to={'/new'} style={{ color: 'white' }}>
+            <button style={{}}>
               {'Add a Creator'}
-            </Link>
-          </button>)}
+            </button>
+          </Link>)}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px',alignItems:"center" }}>
           <button onClick={handlePrevPage} disabled={currentPage === 1} style={{width:"300px"}}>
             {'Previous Page'}
