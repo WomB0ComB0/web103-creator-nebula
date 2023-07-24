@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../client';
 import Modal from 'react-modal';
@@ -24,7 +24,7 @@ const EditCreator = () => {
   const afterOpenModal = () => {};
   const closeModal = () => { setIsOpen(false); };
   const [channelName, setChannelName] = useState('');
-  const getChannelName = async () => {
+  const getChannelName =  useCallback(async () => {
     try {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/channels`,
@@ -41,7 +41,7 @@ const EditCreator = () => {
     } catch (error) {
       console.error('Error fetching channel name:', error);
     }
-  };
+  }, [creator.youtube]);
   useEffect(() => {
     const fetchCreatorData = async () => {
       const { data, error } = await supabase
@@ -57,7 +57,7 @@ const EditCreator = () => {
       await getChannelName();
     };
     fetchCreatorData();
-  }, [id]);
+  }, [id, getChannelName]);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setCreator((prev) => ({

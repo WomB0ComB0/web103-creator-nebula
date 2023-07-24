@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../client'
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
@@ -15,7 +15,7 @@ const AddCreator = () => {
     url: '',
   });
     const [channelName, setChannelName] = useState('');
-    const getChannelName = async () => {
+    const getChannelName = useCallback(async () => {
     try {
       const response = await axios.get(
         `https://www.googleapis.com/youtube/v3/channels`,
@@ -28,11 +28,12 @@ const AddCreator = () => {
         }
       );
      const channel = response.data.items[0].snippet;
+     console.log(channel.title)
       setChannelName(channel.title);
     } catch (error) {
       console.error('Error fetching channel name:', error);
     }
-  };
+  }, [creator.youtube]);
   useEffect(() => {
     const fetchCreatorData = async () => {
       const { data, error } = await supabase
@@ -48,7 +49,7 @@ const AddCreator = () => {
       await getChannelName();
     };
     fetchCreatorData();
-  }, [id]);
+  }, [id, getChannelName]);
     const handleChange = (event) => {
         const {name, value} = event.target;
         setCreator( (prev) => { return { ...prev, [name]:value, } })
