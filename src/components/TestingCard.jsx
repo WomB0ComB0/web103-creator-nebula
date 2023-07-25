@@ -18,13 +18,16 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
         if (error) console.log(error);
         window.location = "/"
     }
-  const goToYouTube = () => {
+  const goToYouTube = (event) => {
+    event.preventDefault();
     window.open(`https://www.youtube.com/${youtube}`, '_blank');
   };
-  const goToTwitter = () => {
+  const goToTwitter = (event) => {
+    event.preventDefault();
     window.open(`https://www.twitter.com/${twitter}`, '_blank');
   };
-  const goToInstagram = () => {
+  const goToInstagram = (event) => {
+    event.preventDefault();
     window.open(`https://www.instagram.com/${instagram}`, '_blank');
   };
   const socialsArray = [
@@ -32,6 +35,7 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
       { text: 'Twitter', icon: 'fa-brands fa-twitter', onClick: goToTwitter, twitter, link: `https://www.twitter.com/${twitter}`  },
       { text: 'Instagram', icon: 'fa-brands fa-instagram', onClick: goToInstagram, instagram, link: `https://www.instagram.com/${instagram}` },
     ];
+  // eslint-disable-next-line no-unused-vars
   const [isCopied, copyToClipboard] = useCopyToClipboard();
   const handleCopyToClipboard = (text) => {
     copyToClipboard(text);
@@ -82,7 +86,7 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
                 social.youtube || social.twitter || social.instagram ? (
                   <div key={social.text} style={{width:"100%", backgroundColor:"transparent", marginBottom:"5px",height:"30px",justifyContent:"space-between",borderRadius:"6px",display:"flex", alignItems:"center",}}>
                     <FontAwesomeIcon style={{ cursor: 'pointer', marginLeft: '13px', marginRight:"10px" }} icon={social.icon} size={`lg`} />
-                    <Link onClick={social.onClick}  data-tooltip={social.text} rel={`noopener noreferrer`} style={{fontWeight:"bold",marginRight:"auto",textDecoration:"none"}} >
+                    <Link onClick={social.onClick} target='_blank'  data-tooltip={social.text} rel={`noopener noreferrer`} style={{fontWeight:"bold",marginRight:"auto",textDecoration:"none"}} >
                         {'@' + social.link
                           .replace(/(^\w+:|^)\/\//, '')
                           .replace(/\/$/, '')
@@ -92,7 +96,7 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
                           .replace(/twitter.com\//, '')
                           .replace(/instagram.com\//, '')}
                     </Link>
-                    <FontAwesomeIcon icon={`fa-solid fa-clipboard`} color={`${isCopied ? 'red' : ''}`} onClick={() => {handleCopyToClipboard(social.link); }} style={{marginRight:"10px",textDecoration:"none",cursor:"pointer"}} title='Copy to clipboard'/>
+                    <FontAwesomeIcon icon={`fa-solid fa-clipboard`} onClick={() => {handleCopyToClipboard(social.link); }} style={{marginRight:"10px",textDecoration:"none",cursor:"pointer"}} title='Copy to clipboard'/>
                   </div>) : null ))}
                 </>
               </div>
