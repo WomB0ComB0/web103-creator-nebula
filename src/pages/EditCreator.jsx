@@ -1,10 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../client';
 import Modal from 'react-modal';
 import '@picocss/pico';
-import axios from 'axios';
 Modal.setAppElement('#root');
 const EditCreator = () => {
   const { id } = useParams();
@@ -23,25 +22,6 @@ const EditCreator = () => {
   // Finish this later
   const afterOpenModal = () => {};
   const closeModal = () => { setIsOpen(false); };
-  const [channelName, setChannelName] = useState('');
-  const getChannelName =  useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `https://www.googleapis.com/youtube/v3/channels`,
-        {
-          params: {
-            part: 'snippet',
-            id: creator.youtube,
-            key: import.meta.env.VITE_YOUTUBE_API_KEY,
-          },
-        }
-      );
-     const channel = response.data.items[0].snippet;
-      setChannelName(channel.title);
-    } catch (error) {
-      console.error('Error fetching channel name:', error);
-    }
-  }, [creator.youtube]);
   useEffect(() => {
     const fetchCreatorData = async () => {
       const { data, error } = await supabase
@@ -54,10 +34,9 @@ const EditCreator = () => {
       } else {
         setCreator(data);
       }
-      await getChannelName();
     };
     fetchCreatorData();
-  }, [id, getChannelName]);
+  }, [id]);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setCreator((prev) => ({
@@ -127,7 +106,7 @@ const EditCreator = () => {
           <p>The creator's YouTube handle (without the @)</p>
         </label>
         <input type="text" id="youtube" name="youtube" value={creator.youtube} onChange={handleChange} />
-        <p>Channel Name: {channelName}</p>
+        
         <label>
           <span className="fa-brands fa-twitter"></span> Twitter
           <p>The creator's Twitter handle (without the @)</p>

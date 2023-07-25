@@ -1,0 +1,26 @@
+{
+    "name": "Creator Nebula",
+    "short_name": "Ctr Neb",
+    "start_url": "/",
+    "id": "/",
+    "description": "Creator Nebula is a free-for-all  platform that allows users to create and share content with others.",
+    "scope": "/",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/public/vite.svg",
+            "type": "image/svg+xml",
+            "sizes": "any",
+            "purpose": "maskable"
+        }
+    ],
+    "dir": "ltr",
+    "lang": "en-US",
+    "display_override": ["minimal-ui","browser","fullscreen"],
+    "display": "standalone",
+    "theme_color": "#001733",
+    "background_color": "#00060d",  
+    "prefer_related_applications": false,
+    "gcm_sender_id": "103953800507",
+    "gcm_user_visible_only": true
+}

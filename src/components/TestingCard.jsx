@@ -8,9 +8,8 @@ import Modal from 'react-modal';
 import Truncate from './Truncate';
 import useCopyToClipboard from '../hooks/useCopyToClipboard';
 import '@picocss/pico';
-
 const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube}) => {
-   const deleteCreator = async (event) => {
+  const deleteCreator = async (event) => {
         event.preventDefault();
         const { error } = await supabase
         .from('creators')
@@ -20,7 +19,7 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
         window.location = "/"
     }
   const goToYouTube = () => {
-    window.open(`https://www.youtube.com/channel/${youtube}`, '_blank');
+    window.open(`https://www.youtube.com/${youtube}`, '_blank');
   };
   const goToTwitter = () => {
     window.open(`https://www.twitter.com/${twitter}`, '_blank');
@@ -29,9 +28,9 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
     window.open(`https://www.instagram.com/${instagram}`, '_blank');
   };
   const socialsArray = [
-      { text: 'YouTube', icon: 'fa-brands fa-youtube', onClick: goToYouTube,  },
-      { text: 'Twitter', icon: 'fa-brands fa-twitter', onClick: goToTwitter,  },
-      { text: 'Instagram', icon: 'fa-brands fa-instagram', onClick: goToInstagram,  },
+      { text: 'YouTube', icon: 'fa-brands fa-youtube', onClick: goToYouTube, youtube, link: `https://www.youtube.com/${youtube}` },
+      { text: 'Twitter', icon: 'fa-brands fa-twitter', onClick: goToTwitter, twitter, link: `https://www.twitter.com/${twitter}`  },
+      { text: 'Instagram', icon: 'fa-brands fa-instagram', onClick: goToInstagram, instagram, link: `https://www.instagram.com/${instagram}` },
     ];
   const [isCopied, copyToClipboard] = useCopyToClipboard();
   const handleCopyToClipboard = (text) => {
@@ -52,8 +51,8 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
       <>
       <div style={{display:"flex", gap:"20px",}}>
       {buttonsArray.map((button) => (
-          <div key={button.text} className="card-icons">
-            {button.link ? (
+          <div key={button.text} className={`card-icons ${button.text === 'Delete' ? 'hover' : ''}`}>
+              {button.link ? (
               <Link to={button.link} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} data-tooltip={button.text}>
                 <FontAwesomeIcon style={{ cursor: 'pointer', marginRight: '13px' }} icon={button.icon} />
               </Link>
@@ -74,27 +73,28 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
           <article>
             <div 
               style={{display:"flex",gap:"20px"}}>
-              <img 
-                src={imageURL ? imageURL : defaultImage} 
-                alt={name} 
-                style={{ borderRadius: '12px', height: '200px', width: '200px' }} 
-              />
-              <div 
-                style={{display:"flex",flexDirection:"column"}}>
-                <h1 style={{marginBottom:"10px"}}>{name}</h1>
-                <Link  to={url}  target={`_blank=`}  rel={`noopener noreferrer`}>{url}</Link>
+              <img src={imageURL ? imageURL : defaultImage} alt={name} style={{ borderRadius: '12px', height: '200px', width: '200px'}} />
+              <div style={{display:"flex",flexDirection:"column"}}>
+                <h1 style={{marginBottom:"1px"}}>{name}</h1>
+                <Link  to={url}  target={`_blank`}  rel={`noopener noreferrer`} style={{marginBottom:"9px"}}>{url}</Link>
               <>
               {socialsArray.map((social) => (
-                <div key={social.text} style={{width:"100%", backgroundColor:"blue", marginBottom:"5px",height:"30px",justifyContent:"space-between",borderRadius:"6px",display:"flex", alignItems:"center"}}>
-            <Link onClick={social.onClick}  data-tooltip={social.text} rel={`noopener noreferrer`}>
-              <FontAwesomeIcon style={{ cursor: 'pointer', marginLeft: '13px' }} icon={social.icon} size={`lg`} />
-              {social.link}
-              <FontAwesomeIcon icon={`clipboard`} onClick={() => handleCopyToClipboard(social.link)}
-                    data-tooltip={isCopied ? 'Copied!' : 'Copy to Clipboard'} style={{marginRight:"10px"}}/>
-            </Link>
-            </div>
-          ))}
-            </>
+                social.youtube || social.twitter || social.instagram ? (
+                  <div key={social.text} style={{width:"100%", backgroundColor:"transparent", marginBottom:"5px",height:"30px",justifyContent:"space-between",borderRadius:"6px",display:"flex", alignItems:"center",}}>
+                    <FontAwesomeIcon style={{ cursor: 'pointer', marginLeft: '13px', marginRight:"10px" }} icon={social.icon} size={`lg`} />
+                    <Link onClick={social.onClick}  data-tooltip={social.text} rel={`noopener noreferrer`} style={{fontWeight:"bold",marginRight:"auto",textDecoration:"none"}} >
+                        {'@' + social.link
+                          .replace(/(^\w+:|^)\/\//, '')
+                          .replace(/\/$/, '')
+                          .replace(/www./, '')
+                          .replace(/@/g,'')
+                          .replace(/youtube.com\//, '')
+                          .replace(/twitter.com\//, '')
+                          .replace(/instagram.com\//, '')}
+                    </Link>
+                    <FontAwesomeIcon icon={`fa-solid fa-clipboard`} color={`${isCopied ? 'red' : ''}`} onClick={() => {handleCopyToClipboard(social.link); }} style={{marginRight:"10px",textDecoration:"none",cursor:"pointer"}} title='Copy to clipboard'/>
+                  </div>) : null ))}
+                </>
               </div>
             </div>
             <p style={{marginTop:"10px", width:""}}>
@@ -111,22 +111,24 @@ const Card = ({name, imageURL, url, description, id, twitter, instagram, youtube
   }
   return (
     <>
-      <article className='card-container'   style={{ width: "900px", height:  "100px", paddingBlock: "0",  display: "flex", flexDirection:  "row", justifyContent:   "space-between", paddingInline:   "14px", alignItems: "center" }}>
+      <article className='card-container'   style={{ height:  "100px", paddingBlock: "0",  display: "flex", flexDirection:  "row", justifyContent:   "space-between", paddingInline:   "14px", alignItems: "center"}}>
         <div style={{ display: "flex",  justifyContent:"center",   alignItems:"center",width:""}}>
-          <img src={imageURL ? imageURL :   defaultImage} alt={name} style= {{ borderRadius: "10%",  height:"50px",width:"50px" }} />
-          <h3 style={{ fontSize: "23px",  marginBottom:"0", marginLeft:"15px" }}>
-            <Link to={url !== null  &&  url !== ''? url : "/"}>{name}  </Link>
-          </h3>
+          <img src={imageURL ? imageURL :   defaultImage} alt={name} style= {{ borderRadius: "10%",  height:"75px",width:"75px" }} />
+          <div style={{gap:"5px",display:"flex", flexDirection:"column"}}>
+            <h3 style={{ fontSize: "23px",  marginBottom:"0", marginLeft:"15px" }}>
+              <Link to={url !== null  &&  url !== ''? url : "/"} target={`_blank`}>{name}  </Link>
+            </h3>
+            <>
+            <ul style={{ justifyContent: "space-between", display: "flex",marginBottom:"0"}} >
+              {socialsArray.map((social) => (
+                social.youtube || social.twitter || social.instagram ? (
+                  <Link onClick={social.onClick} key={social.text} data-tooltip={social.text} data-placement="bottom" rel={`noopener noreferrer`}>
+                    <FontAwesomeIcon style={{ cursor: 'pointer', marginRight: '13px' }} icon={social.icon} size={`xl`} />
+                  </Link>) : null))}
+            </ul>
+            </>
+          </div>
         </div>
-        <>
-          <ul style={{ justifyContent: "space-between", display: "flex",marginBottom:"0"}} >
-            {socialsArray.map((social) => (
-            <Link onClick={social.onClick} key={social.text} data-tooltip={social.text} rel={`noopener noreferrer`}>
-              <FontAwesomeIcon style={{ cursor: 'pointer', marginRight: '13px' }} icon={social.icon} size={`xl`} />
-            </Link>
-          ))}
-          </ul>
-        </>
         <Buttons />
       </article>
     </>

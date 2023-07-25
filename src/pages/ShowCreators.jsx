@@ -30,7 +30,7 @@ const ShowCreators = ({data}) => {
   );
   return (
         <>
-          <section style={{ padding: "10px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "center" }}>
+          <section className='' style={{ padding: "10px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "center",minWidth:"400px" }}>
             {paginatedCreators && paginatedCreators.length > 0 ? (
           paginatedCreators.map((creator) => <Card key={creator.id} id={creator.id} name={creator.name} youtube={creator.youtube} twitter={creator.twitter} instagram={creator.instagram} description={creator.description} imageURL={creator.imageURL} url={creator.url} />)
         ) : (
