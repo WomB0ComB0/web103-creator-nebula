@@ -31,18 +31,17 @@ const ShowCreators = ({data}) => {
   return (
         <>
           <section className='' style={{ padding: "10px", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "center",minWidth:"400px" }}>
-            {paginatedCreators && paginatedCreators.length > 0 ? (
-          paginatedCreators.map((creator) => <Card key={creator.id} id={creator.id} name={creator.name} youtube={creator.youtube} twitter={creator.twitter} instagram={creator.instagram} description={creator.description} imageURL={creator.imageURL} url={creator.url} />)
-        ) : (
-          <div style={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-            <h3>{'No Creators Yet 😞'}</h3>
-            <button style={{}}>
-              <Link to={'/new'} style={{ color: 'white' }}>
-                {'Add a Creator'}
-              </Link>
-            </button>
-          </div>
-        )}
+            {paginatedCreators && paginatedCreators.length >= 5 ? (
+            <>
+            {paginatedCreators.map((creator) => (
+              <Card key={creator.id} id={creator.id} name={creator.name} youtube={creator.youtube} twitter={creator.twitter} instagram={creator.instagram} description={creator.description} imageURL={creator.imageURL} url={creator.url}/>))}
+            </>):(
+            <div style={{justifyContent: 'center', alignItems: 'center',textAlign: 'center', }}>
+              <h3>{`${paginatedCreators.length == 0 && paginatedCreators.length < 5 ? 'Add Creators 😞' : 'Add more Creators 😁'}`}</h3>
+              <p>
+                {`${paginatedCreators.length == 0 && paginatedCreators.length < 5 ? 'There are no creators to show. Add some creators to get started.' : 'There are not enough creators to show. Add more creators to get started.'}`}
+              </p>
+            </div>)}
         {currentPage === getTotalPages() && (
           <Link to={'/new'} style={{ color: 'white' }}>
             <button style={{}}>

@@ -17,7 +17,6 @@ const useCopyToClipboard = () => {
       return () => clearTimeout(id);
     }
   }, [isCopied]);
-
   return [isCopied, copyToClipboard];
 };
 export default useCopyToClipboard;
