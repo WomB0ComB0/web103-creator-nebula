@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from '../client'
 import { useParams } from 'react-router-dom'
-import axios from 'axios';
 const AddCreator = () => {
     const { id } = useParams();
   const [creator, setCreator] = useState({
