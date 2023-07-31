@@ -56,5 +56,4 @@ const ViewCreator = ({data}) => {
 ViewCreator.propTypes = {
     data: PropTypes.array.isRequired,
 }
-
 export default ViewCreator
