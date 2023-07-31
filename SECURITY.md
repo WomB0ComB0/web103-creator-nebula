@@ -15,4 +15,4 @@ This application is within it's development phase, and will not be fully 'decked
 
 ## Reporting a Vulnerability
 
-If you were to spot a vulnerability within the application, please either message me on Discord, user: Hades#0859 or send me an email at mikeodnis3242004@gmail.com
+If you were to spot a vulnerability within the application, please either message me on Discord, user: Hades#0859 or send me an email at [mikeodnis3242004@gmail.com]<mikeodnis3242004@gmail.com>
