@@ -1,11 +1,18 @@
-import {useState,useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AddCreator, EditCreator, ShowCreators, ViewCreator } from './pages/index';
 import ErrorPage from './error-page';
 import '@picocss/pico'
 import './App.css';
-import { supabase } from './client';
+import { supabase, GoogleAnalytics } from './client';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize(GoogleAnalytics);
 export default function App() {
+  const location = useLocation();
+  useEffect(() => {
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
   const [creators, setCreators] = useState([])
   useEffect(()=>{
     async function fetchCreators() {
