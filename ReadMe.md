@@ -34,7 +34,7 @@ The following **additional** features are implemented:
 - [x] Reduce the amount of navigation required to edit a content creator by adding an edit button to the content creator card
 - [x] Added an error route to handle invalid urls
 - [ ] Added a loading spinner to the homepage while the content creators are being fetched
-- [ ] Added a copy to clipboard button to the content creator details page to copy the content creators url to the clipboard
+- [x] Added a copy to clipboard button to the content creator details page to copy the content creators url to the clipboard
 - [ ] Added a search bar to the homepage to filter the content creators by name
 - [ ] Added a filter button to the homepage to filter the content creators by category
 
