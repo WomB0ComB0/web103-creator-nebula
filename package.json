@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@picocss/pico": "^1.5.10",
+    "@picocss/pico": "^1.5.13",
     "@supabase/supabase-js": "^2.49.1",
     "@types/node": "^20.4.4",
     "axios": "^1.8.3",
