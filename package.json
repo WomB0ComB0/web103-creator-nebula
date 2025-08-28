@@ -12,7 +12,7 @@
   "dependencies": {
     "@picocss/pico": "^2.1.0",
     "@supabase/supabase-js": "^2.49.4",
-    "@types/node": "^22.15.18",
+    "@types/node": "^24.2.0",
     "axios": "^1.8.4",
     "dotenv": "^17.2.0",
     "react": "^19.1.0",
